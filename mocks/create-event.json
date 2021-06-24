@@ -1,0 +1,8 @@
+{
+    "body": "{\"title\":\"Trek Fuel EX Mountain Bike\",\"description\":\"2019 140mm suspension front and back mountain bike.\", \"category\":\"Biking\",\"rules\":\"No rules!\",\"imageUrls\":\"[\"bike.jpg\"]\"}",
+    "requestContext": {
+      "identity": {
+        "cognitoIdentityId": "USER-SUB-1234"
+      }
+    }
+  }
