@@ -1,6 +1,6 @@
-import hello from '../handler';
+import { main } from '../delete';
 
-test('hello', async () => {
+test('create listing', async () => {
   const event = 'event';
   const context = 'context';
   const callback = (error, response) => {
@@ -8,5 +8,5 @@ test('hello', async () => {
     expect(typeof response.body).toBe('string');
   };
 
-  await hello(event, context, callback);
+  await main(event, context, callback);
 });

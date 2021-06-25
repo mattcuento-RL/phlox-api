@@ -13,20 +13,99 @@ plugins:
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: dev
+  stage: prod
   region: us-east-1
   # To load environment variables externally
   # rename env.example to .env and uncomment
   # the following line. Also, make sure to not
   # commit your .env.
   #
-  #environment:
-  #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+
+  environment:
+    listingTable: listings
+    requestTable: reservation-requests
+
+  # 'iamRoleStatements' defines the permission policy for the Lambda function.
+  # In this case Lambda functions are granted with permissions to access DynamoDB.
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
-  hello:
-    handler: handler.hello
+
+  list:
+  # Defines an HTTP API endpoint that calls the main function in list.js
+  # - path: url path is /listings
+  # - method: GET request
+    handler: list.main
     events:
       - http:
-          path: hello
+          path: listings
           method: get
+          cors: true
+          authorizer: aws_iam
+
+  create:
+  # Defines an HTTP API endpoint that calls the main function in create.js
+  # - path: url path is /listing
+  # - method: POST request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: create.main
+    events:
+      - http:
+          path: listing
+          method: post
+          cors: true
+          authorizer: aws_iam
+    
+  get:
+  # Defines an HTTP API endpoint that calls the main function in get.js
+  # - path: url path is /listing/{id}
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: get.main
+    events:
+      - http:
+          path: listing/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam  
+
+  update:
+  # Defines an HTTP API endpoint that calls the main function in update.js
+  # - path: url path is /listing/{id}
+  # - method: POST request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: update.main
+    events:
+      - http:
+          path: listing/{id}
+          method: post
+          cors: true
+          authorizer: aws_iam
+
+  delete:
+  # Defines an HTTP API endpoint that calls the main function in delete.js
+  # - path: url path is /listing/{id}
+  # - method: DELETE request
+  # - authorizer: authenticate using the AWS IAM role  
+    handler: delete.main
+    events:
+      - http:
+          path: listing/{id}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}
