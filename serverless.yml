@@ -40,11 +40,24 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-1:*:*"
 
 functions:
+
+  list:
+  # Defines an HTTP API endpoint that calls the main function in list.js
+  # - path: url path is /listings
+  # - method: GET request
+    handler: list.main
+    events:
+      - http:
+          path: listings
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+  create:
   # Defines an HTTP API endpoint that calls the main function in create.js
   # - path: url path is /listing
   # - method: POST request
   # - authorizer: authenticate using the AWS IAM role
-  create:
     handler: create.main
     events:
       - http:
