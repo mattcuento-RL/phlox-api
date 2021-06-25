@@ -20,5 +20,3 @@ export const main = handler(async (event, context) => {
   // Return the matching list of items in response body
   return result.Items;
 });
-
-// export default main;
