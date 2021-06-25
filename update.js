@@ -12,12 +12,12 @@ export const main = handler(async (event, context) => {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: 'SET title = :title, description = :description, category = :category, rules = :rules, imageUrls = :imageUrls',
+    UpdateExpression: 'SET title = :title, description = :description, category = :category, policy = :policy, imageUrls = :imageUrls',
     ExpressionAttributeValues: {
       ':title': data.title || null,
       ':description': data.description || null,
       ':category': data.category || null,
-      ':rules': data.rules || null,
+      ':policy': data.policy || null,
       ':imageUrls': data.imageUrls || null,
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,

@@ -4,19 +4,15 @@ import dynamoDb from './libs/dynamodb-lib';
 export const main = handler(async (event, context) => {
   const params = {
     TableName: process.env.listingTable,
-    // 'KeyConditionExpression' defines the condition for the query
-    // - 'userId = :userId': only return items with matching 'userId'
-    //   partition key
-    // KeyConditionExpression: "userId = :userId",
-    // 'ExpressionAttributeValues' defines the value in the condition
-    // - ':userId': defines 'userId' to be the id of the author
-    // ExpressionAttributeValues: {
-    //  ":userId": event.requestContext.identity.cognitoIdentityId, // The id of the author,
-    // },
   };
 
-  const result = await dynamoDb.query(params);
+  const scanResults = [];
+  let items;
 
-  // Return the matching list of items in response body
-  return result.Items;
+  do {
+    items = await dynamoDb.scan(params);
+    items.Items.forEach((item) => scanResults.push(item));
+    params.ExclusiveStartKey = items.LastEvaluatedKey;
+  } while (typeof items.LastEvaluatedKey !== 'undefined');
+  return scanResults;
 });

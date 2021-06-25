@@ -13,7 +13,7 @@ export const main = handler(async (event, context) => {
       title: data.title, // Parsed from request body
       description: data.description, // Parsed from request body
       category: data.category,
-      rules: data.rules,
+      policy: data.policy,
       imageUrls: data.imageUrls,
       createdAt: Date.now(), // Current Unix timestamp
     },
