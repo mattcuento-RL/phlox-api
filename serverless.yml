@@ -146,13 +146,13 @@ functions:
   
   update-request:
   # Defines an HTTP API endpoint that calls the request function in update.js
-  # - path: url path is /listing/{id}
+  # - path: url path is /request/{id}
   # - method: POST request
   # - authorizer: authenticate using the AWS IAM role
     handler: update.request
     events:
       - http:
-          path: listing/{id}
+          path: request/{id}
           method: post
           cors: true
           authorizer: aws_iam
