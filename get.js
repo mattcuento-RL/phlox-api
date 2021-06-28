@@ -4,18 +4,18 @@ import dynamoDb from './libs/dynamodb-lib';
 export const main = handler(async (event, context) => {
   const params = {
     TableName: process.env.listingTable,
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    Key: {
-      userId: event.requestContext.identity.cognitoIdentityId, // The id of the author
-      listingId: event.pathParameters.id, // The id of the note from the path
+    // 'FilterExpression' defines the condition for the query
+    // - 'listingId = :listingId': only return items with matching 'listingId'
+    FilterExpression: 'listingId = :listingId',
+    // 'ExpressionAttributeValues' defines the value in the condition
+    // - ':listingId': defines 'listingAuthorId' to be the id of the author
+    ExpressionAttributeValues: {
+      ':listingId': event.pathParameters.id, // The id of the author,
     },
   };
 
-  const result = await dynamoDb.get(params);
-  if (!result.Item) {
-    throw new Error('Item not found.');
-  }
+  const result = await dynamoDb.scan(params);
 
-  // Return the retrieved item
-  return result.Item;
+  // Return the matching list of items in response body
+  return result.Items.length === 0 ? {} : result.Items[0];
 });
