@@ -1,0 +1,8 @@
+{
+    "body": "{\"listingId\":\"eee7f900-d82d-11eb-96da-db110fdd7be3\",\"listingAuthorId\":\"us-east-1:cfa966d4-c0cf-44d4-ae95-f6eb1426f3bb\", \"rate\":\"0\",\"archived\":\"false\",\"startDate\":\"2021-08-12\",\"endDate\":\"2021-08-22\",\"status\":\"0\",\"comment\":\"Sweet bike dude!\"}",
+    "requestContext": {
+      "identity": {
+        "cognitoIdentityId": "USER-SUB-1234"
+      }
+    }
+  }

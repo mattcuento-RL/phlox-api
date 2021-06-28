@@ -104,6 +104,71 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+  
+  list-lender-requests:
+  # Defines an HTTP API endpoint that calls the getLenderRequests function in list.js
+  # - path: url path is /lender-requests
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role  
+    handler: list.getLenderRequests
+    events:
+      - http:
+          path: lender-requests
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+  list-renter-requests:
+  # Defines an HTTP API endpoint that calls the getLenderRequests function in list.js
+  # - path: url path is /lender-requests
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role  
+    handler: list.getRenterRequests
+    events:
+      - http:
+          path: renter-requests
+          method: get
+          cors: true
+          authorizer: aws_iam
+
+  create-request:
+  # Defines an HTTP API endpoint that calls the request function in create.js
+  # - path: url path is /request
+  # - method: POST request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: create.request
+    events:
+      - http:
+          path: request
+          method: post
+          cors: true
+          authorizer: aws_iam
+  
+  update-request:
+  # Defines an HTTP API endpoint that calls the request function in update.js
+  # - path: url path is /request/{id}
+  # - method: POST request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: update.request
+    events:
+      - http:
+          path: request/{id}
+          method: post
+          cors: true
+          authorizer: aws_iam
+  
+  list-lender-listings:
+  # Defines an HTTP API endpoint that calls the getLenderListings function in list.js
+  # - path: url path is /lender-listings
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role  
+    handler: list.getLenderListings
+    events:
+      - http:
+          path: lender-listings
+          method: get
+          cors: true
+          authorizer: aws_iam  
 
 # Create our resources with separate CloudFormation templates
 resources:
