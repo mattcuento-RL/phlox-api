@@ -14,8 +14,33 @@ export const main = handler(async (event, context) => {
       description: data.description, // Parsed from request body
       category: data.category,
       policy: data.policy,
-      imageUrls: data.imageUrls,
+      imageUrl: data.imageUrl,
       createdAt: Date.now(), // Current Unix timestamp
+    },
+  };
+
+  await dynamoDb.put(params);
+
+  return params.Item;
+});
+
+export const request = handler(async (event, context) => {
+  const data = JSON.parse(event.body);
+  const params = {
+    TableName: process.env.requestTable,
+    Item: {
+      // The attributes of the item to be created
+      userId: event.requestContext.identity.cognitoIdentityId, // The id of the author
+      listingId: data.listingId, // A unique uuid
+      requestId: uuid.v1(),
+      rate: data.rate,
+      archived: data.archived,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      status: data.status,
+      listingAuthorId: data.listingAuthorId,
+      comment: data.comment,
+      timeCreated: Date.now(), // Current Unix timestamp
     },
   };
 
