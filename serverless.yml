@@ -104,6 +104,19 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+  
+  list-lender-requests:
+  # Defines an HTTP API endpoint that calls the getLenderRequests function in list.js
+  # - path: url path is /lender-requests
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role  
+    handler: list.getLenderRequests
+    events:
+      - http:
+          path: lender-requests
+          method: get
+          cors: true
+          authorizer: aws_iam
 
 # Create our resources with separate CloudFormation templates
 resources:
