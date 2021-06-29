@@ -34,17 +34,19 @@ export const main = handler(async (event, context) => {
 export const request = handler(async (event, context) => {
   const data = JSON.parse(event.body);
   const params = {
-    TableName: process.env.listingTable,
+    TableName: process.env.requestTable,
     // 'Key' defines the partition key and sort key of the item to be updated
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId, // The id of the author
-      listingId: event.pathParameters.id, // The id of the note from the path
+      userId: data.userId, // The id of the author
+      requestId: event.pathParameters.id, // The id of the note from the path
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: 'SET status = :status, archived = :archived',
+    UpdateExpression: 'SET requestStatus = :requestStatus, archived = :archived',
+    ConditionExpression: 'listingAuthorId = :listingAuthorId',
     ExpressionAttributeValues: {
-      ':status': data.status || null,
+      ':listingAuthorId': event.requestContext.identity.cognitoIdentityId,
+      ':requestStatus': data.requestStatus || null,
       ':archived': data.archived || false,
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,

@@ -88,7 +88,7 @@ functions:
     events:
       - http:
           path: listing/{id}
-          method: post
+          method: put
           cors: true
           authorizer: aws_iam
 
@@ -153,7 +153,7 @@ functions:
     events:
       - http:
           path: request/{id}
-          method: post
+          method: put
           cors: true
           authorizer: aws_iam
   
@@ -169,6 +169,19 @@ functions:
           method: get
           cors: true
           authorizer: aws_iam  
+
+  get-approved-reservations:
+  # Defines an HTTP API endpoint that calls the main function in get.js
+  # - path: url path is /approved-reservations/{id}
+  # - method: GET request
+  # - authorizer: authenticate using the AWS IAM role
+    handler: get.approvedReservations
+    events:
+      - http:
+          path: approved-reservations/{id}
+          method: get
+          cors: true
+          authorizer: aws_iam
 
 # Create our resources with separate CloudFormation templates
 resources:
