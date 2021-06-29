@@ -12,6 +12,10 @@ export const main = handler(async (event, context) => {
       listingId: uuid.v1(), // A unique uuid
       title: data.title, // Parsed from request body
       description: data.description, // Parsed from request body
+      address: data.address,
+      phoneNumber: data.phoneNumber,
+      firstName: data.firstName,
+      lastName: data.lastName,
       category: data.category,
       policy: data.policy,
       imageUrl: data.imageUrl,
@@ -37,7 +41,10 @@ export const request = handler(async (event, context) => {
       archived: data.archived,
       startDate: data.startDate,
       endDate: data.endDate,
-      status: data.status,
+      phoneNumber: data.phoneNumber,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      requestStatus: 0,
       listingAuthorId: data.listingAuthorId,
       comment: data.comment,
       timeCreated: Date.now(), // Current Unix timestamp
